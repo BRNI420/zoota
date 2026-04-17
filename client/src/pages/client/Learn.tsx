@@ -13,25 +13,26 @@ interface VideoItem {
 
 const VIDEOS: VideoItem[] = [
   // טכניקת תרגילים
-  { id: '1', title: 'סקוואט — טכניקה מושלמת', description: 'המדריך המלא לביצוע סקוואט נכון, כולל שגיאות נפוצות ותיקונים', youtubeId: 'gsNoPYwWXeM', category: 'טכניקה', duration: '12:34', level: 'מתחיל' },
-  { id: '2', title: 'דדליפט — מ-0 ל-מתקדם', description: 'הסבר שלב אחר שלב כיצד לבצע דדליפט בצורה בטוחה ויעילה', youtubeId: 'op9kVnSso6Q', category: 'טכניקה', duration: '14:22', level: 'מתחיל' },
-  { id: '3', title: 'לחיצת חזה — כל מה שצריך לדעת', description: 'תנוחה, אחיזה, טווח תנועה וסדרות — המדריך הסופי', youtubeId: 'rT7DgCr-3pg', category: 'טכניקה', duration: '9:47', level: 'מתחיל' },
-  { id: '4', title: 'מתח (Pull-Up) — מ-0 חזרות ל-20', description: 'תוכנית התקדמות מלאה למתחילים עד מתקדמים', youtubeId: 'eGo4IYlbE5g', category: 'טכניקה', duration: '11:15', level: 'מתחיל' },
-  { id: '5', title: 'כפיפות בטן נכונות — לא תאמין כמה טעית', description: 'הדרך הנכונה לכפיפות בטן שבאמת עובדת על שרירי הליבה', youtubeId: 'Xyd_fa5zoEU', category: 'טכניקה', duration: '7:30', level: 'מתחיל' },
-  { id: '6', title: 'עלייה על הספסל — טכניקה מתקדמת', description: 'שיפור טכניקת ה-Bench Press לתוצאות מקסימליות', youtubeId: 'vcBig73ojpE', category: 'טכניקה', duration: '13:00', level: 'מתקדם' },
+  { id: '1',  title: 'סקוואט — המדריך השלם לטכניקה נכונה',      description: 'המדריך המלא לביצוע סקוואט נכון, כולל שגיאות נפוצות ותיקונים',         youtubeId: 'ultWZbUMPL8', category: 'טכניקה',      duration: '12:34', level: 'מתחיל' },
+  { id: '2',  title: 'דדליפט — ביצוע בטוח מ-0 למתקדם',          description: 'הסבר שלב אחר שלב כיצד לבצע דדליפט בצורה בטוחה ויעילה',              youtubeId: 'r4MzxtBKyNE', category: 'טכניקה',      duration: '14:22', level: 'מתחיל' },
+  { id: '3',  title: 'לחיצת חזה — כל מה שצריך לדעת',            description: 'תנוחה, אחיזה, טווח תנועה וסדרות — המדריך הסופי ללחיצת חזה',          youtubeId: 'BYKScL2sgCs', category: 'טכניקה',      duration: '9:47',  level: 'מתחיל' },
+  { id: '4',  title: 'מתח (Pull-Up) — מ-0 חזרות ל-20',          description: 'תוכנית התקדמות מלאה למתחילים עד מתקדמים',                             youtubeId: 'XB_7En-zf_M', category: 'טכניקה',      duration: '11:15', level: 'מתחיל' },
+  { id: '5',  title: 'כפיפות בטן — שריפת שרירי הליבה',          description: 'הדרך הנכונה לאמן בטן שבאמת עובדת על שרירי הליבה',                    youtubeId: 'DHD1-2P4sWs', category: 'טכניקה',      duration: '7:30',  level: 'מתחיל' },
+  { id: '6',  title: 'כפיפות ידיים (Bicep Curl) — טכניקה',      description: 'איך לאמן ביצפס בצורה נכונה לתוצאות מקסימליות',                        youtubeId: 'ykJmrZ5v0Oo', category: 'טכניקה',      duration: '13:00', level: 'מתקדם' },
   // תזונה
-  { id: '7', title: 'כמה חלבון צריך לאכול ביום?', description: 'המדע מאחורי צריכת חלבון לבניית שריר וחיטוב', youtubeId: 'lSDVJxzOBBo', category: 'תזונה', duration: '10:05', level: 'כולם' },
-  { id: '8', title: 'הכנת ארוחות שבועית (Meal Prep)', description: 'איך להכין 5 ארוחות בריאות ב-60 דקות בלבד', youtubeId: '8Y49Qo-gBaU', category: 'תזונה', duration: '18:44', level: 'כולם' },
-  { id: '9', title: 'קלוריות ומאקרו — המדריך הפשוט', description: 'כיצד לספור קלוריות ולהבין מאקרונוטריינטים בצורה פשוטה', youtubeId: 'HB1BtrY56ko', category: 'תזונה', duration: '15:20', level: 'מתחיל' },
-  { id: '10', title: 'מה לאכול לפני ואחרי אימון?', description: 'תזמון נכון של אכילה לפני ואחרי אימון למקסום תוצאות', youtubeId: 'uxFpGkgnZwk', category: 'תזונה', duration: '8:55', level: 'כולם' },
-  { id: '11', title: 'חלבון — כל מקורות המזון הטובים ביותר', description: 'רשימה מלאה של מזונות עשירים בחלבון לבניית שריר', youtubeId: 'E4-QVBVAkRY', category: 'תזונה', duration: '9:10', level: 'כולם' },
-  // כושר גופני
-  { id: '12', title: 'אימון HIIT 20 דקות — שריפת שומן מקסימלית', description: 'אימון אינטרוולים עצים שמעלה את חילוף החומרים ל-48 שעות', youtubeId: 'M0uO8X3_tEA', category: 'קרדיו', duration: '20:00', level: 'בינוני' },
-  { id: '13', title: 'ריצה נכונה — טכניקה שתמנע פציעות', description: 'יציבה, צעד, נשימה — כל מה שצריך לדעת על ריצה נכונה', youtubeId: 'wRkeBVMQSzg', category: 'קרדיו', duration: '11:30', level: 'מתחיל' },
-  { id: '14', title: 'אימון גוף מלא ללא ציוד — 30 דקות', description: 'אימון עם משקל גוף בלבד שאפשר לעשות בבית או בפארק', youtubeId: 'UItWltVZZmE', category: 'גוף מלא', duration: '30:00', level: 'כולם' },
+  { id: '7',  title: 'כמה חלבון צריך לאכול ביום?',               description: 'המדע מאחורי צריכת חלבון לבניית שריר וחיטוב',                          youtubeId: 'lSDVJxzOBBo', category: 'תזונה',        duration: '10:05', level: 'כולם'  },
+  { id: '8',  title: 'הכנת ארוחות שבועית (Meal Prep)',           description: 'איך להכין 5 ארוחות בריאות ב-60 דקות בלבד',                           youtubeId: 'UFCNqvNAkxk', category: 'תזונה',        duration: '18:44', level: 'כולם'  },
+  { id: '9',  title: 'קלוריות ומאקרו — המדריך הפשוט',           description: 'כיצד לספור קלוריות ולהבין מאקרונוטריינטים בצורה פשוטה',             youtubeId: 'CO3FiOqFCnI', category: 'תזונה',        duration: '15:20', level: 'מתחיל' },
+  { id: '10', title: 'מה לאכול לפני ואחרי אימון?',               description: 'תזמון נכון של אכילה לפני ואחרי אימון למקסום תוצאות',                 youtubeId: 'uxFpGkgnZwk', category: 'תזונה',        duration: '8:55',  level: 'כולם'  },
+  { id: '11', title: 'אכילה לחיטוב — כל הסודות',                description: 'תוכנית תזונה מדויקת לחיטוב ושמירה על מסת שריר',                      youtubeId: 'Wfbxj8NdX2Y', category: 'תזונה',        duration: '9:10',  level: 'כולם'  },
+  // קרדיו
+  { id: '12', title: 'אימון HIIT 20 דקות — שריפת שומן מלאה',    description: 'אימון אינטרוולים עצים שמעלה את חילוף החומרים ל-48 שעות',            youtubeId: 'ml6cT4AZdqI', category: 'קרדיו',        duration: '20:00', level: 'בינוני' },
+  { id: '13', title: 'ריצה נכונה — טכניקה שתמנע פציעות',        description: 'יציבה, צעד, נשימה — כל מה שצריך לדעת על ריצה נכונה',               youtubeId: 'brFHyOtTwH4', category: 'קרדיו',        duration: '11:30', level: 'מתחיל' },
+  // גוף מלא
+  { id: '14', title: 'אימון גוף מלא ללא ציוד — 30 דקות',        description: 'אימון עם משקל גוף בלבד שאפשר לעשות בבית או בפארק',                 youtubeId: 'UItWltVZZmE', category: 'גוף מלא',      duration: '30:00', level: 'כולם'  },
   // התאוששות
-  { id: '15', title: 'מתיחות לאחר אימון — 10 דקות קריטיות', description: 'שגרת מתיחות שתפחית כאבי שרירים ותשפר גמישות', youtubeId: 'g_tea8ZNk5A', category: 'התאוששות', duration: '10:00', level: 'כולם' },
-  { id: '16', title: 'שינה וכושר — הקשר המפתיע', description: 'למה שינה היא הגורם החשוב ביותר לבניית שריר וחיטוב', youtubeId: '5MuIMqhT8oU', category: 'התאוששות', duration: '12:18', level: 'כולם' },
+  { id: '15', title: 'מתיחות לאחר אימון — 10 דקות קריטיות',     description: 'שגרת מתיחות שתפחית כאבי שרירים ותשפר גמישות לאחר כל אימון',       youtubeId: 'g_tea8ZNk5A', category: 'התאוששות',    duration: '10:00', level: 'כולם'  },
+  { id: '16', title: 'שינה וכושר — הקשר המפתיע',                description: 'למה שינה היא הגורם החשוב ביותר לבניית שריר וחיטוב',                youtubeId: '5MuIMqhT8oU', category: 'התאוששות',    duration: '12:18', level: 'כולם'  },
 ];
 
 const CATEGORIES = ['הכל', 'טכניקה', 'תזונה', 'קרדיו', 'גוף מלא', 'התאוששות'];

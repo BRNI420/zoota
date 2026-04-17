@@ -144,14 +144,6 @@ export default function Login() {
             </Link>
           </p>
 
-          {/* Demo credentials */}
-          <div className="mt-8 p-4 bg-surface rounded-xl border border-border">
-            <p className="text-xs text-gray-500 text-center mb-2">כניסה להדגמה</p>
-            <div className="space-y-1 text-xs text-gray-400 text-center">
-              <p>לקוח: demo@zoota.com / demo123</p>
-              <p>מנהל: admin@zoota.com / admin123</p>
-            </div>
-          </div>
         </div>
       </div>
     </div>

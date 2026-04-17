@@ -138,26 +138,32 @@ const initDB = async () => {
   const bcrypt = require('bcryptjs');
   const { v4: uuidv4 } = require('uuid');
 
+  // Seed demo client account
   const demoExists = await pool.query("SELECT id FROM users WHERE email = 'demo@zoota.com'");
   if (demoExists.rows.length === 0) {
     const demoId = uuidv4();
-    const adminId = uuidv4();
     const demoHash = await bcrypt.hash('demo123', 12);
-    const adminHash = await bcrypt.hash('admin123', 12);
-
     await pool.query(
       "INSERT INTO users (id, email, password_hash, name, role) VALUES ($1, 'demo@zoota.com', $2, 'משתמש דמו', 'client')",
       [demoId, demoHash]
     );
     await pool.query("INSERT INTO notification_settings (id, user_id) VALUES ($1, $2)", [uuidv4(), demoId]);
+    console.log('Demo account seeded');
+  }
 
+  // Seed/update admin account with secure password
+  const ADMIN_EMAIL = 'zoota.manager@gmail.com';
+  const ADMIN_PASS  = 'Zoota@Manager#2024';
+  const adminExists = await pool.query("SELECT id FROM users WHERE email = $1", [ADMIN_EMAIL]);
+  if (adminExists.rows.length === 0) {
+    const adminId   = uuidv4();
+    const adminHash = await bcrypt.hash(ADMIN_PASS, 12);
     await pool.query(
-      "INSERT INTO users (id, email, password_hash, name, role) VALUES ($1, 'admin@zoota.com', $2, 'מנהל', 'admin')",
-      [adminId, adminHash]
+      "INSERT INTO users (id, email, password_hash, name, role) VALUES ($1, $2, $3, 'מנהל ZOOTA', 'admin')",
+      [adminId, ADMIN_EMAIL, adminHash]
     );
     await pool.query("INSERT INTO notification_settings (id, user_id) VALUES ($1, $2)", [uuidv4(), adminId]);
-
-    console.log('Demo accounts seeded');
+    console.log('Admin account seeded');
   }
 
   _initDone = true;

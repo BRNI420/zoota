@@ -71,7 +71,18 @@
       "Bash(powershell -Command \"winget install GitHub.cli --accept-package-agreements --accept-source-agreements 2>&1\")",
       "Bash(powershell -Command \"& 'C:\\\\Program Files\\\\GitHub CLI\\\\gh.exe' auth status 2>&1\")",
       "Bash(powershell -Command \"& 'C:\\\\Program Files\\\\GitHub CLI\\\\gh.exe' auth login --hostname github.com --git-protocol https --web 2>&1\")",
-      "Bash(powershell -Command \"& 'C:\\\\Program Files\\\\GitHub CLI\\\\gh.exe' repo create zoota --public --description 'ZOOTA - Hebrew fitness and nutrition platform' 2>&1\")"
+      "Bash(powershell -Command \"& 'C:\\\\Program Files\\\\GitHub CLI\\\\gh.exe' repo create zoota --public --description 'ZOOTA - Hebrew fitness and nutrition platform' 2>&1\")",
+      "Bash(powershell -Command \"& 'C:\\\\Program Files\\\\GitHub CLI\\\\gh.exe' auth token 2>&1\")",
+      "Bash(powershell -Command \"npx --yes @railway/cli login --browserless 2>&1\")",
+      "Bash(powershell -Command \"iwr https://get.tur.so/install.ps1 -useb | iex 2>&1\")",
+      "Bash(powershell -Command \"cd 'C:\\\\Users\\\\benih\\\\Desktop\\\\fit\\\\client'; npx vercel env add VITE_API_URL production --scope beni-s-projects 2>&1\")",
+      "Bash(powershell -Command \"cd 'C:\\\\Users\\\\benih\\\\Desktop\\\\fit\\\\client'; npx vercel env add VITE_API_URL production --value 'https://zoota-api.onrender.com' --yes --scope beni-s-projects 2>&1\")",
+      "Bash(powershell -Command \"cd 'C:\\\\Users\\\\benih\\\\Desktop\\\\fit\\\\client'; npx vercel --prod --yes --scope beni-s-projects 2>&1\")",
+      "Bash(powershell -Command \"cd 'C:\\\\Users\\\\benih\\\\Desktop\\\\fit\\\\server'; npx vercel --yes --scope beni-s-projects 2>&1\")",
+      "Bash(powershell -Command \"cd 'C:\\\\Users\\\\benih\\\\Desktop\\\\fit\\\\server'; npx vercel storage create --scope beni-s-projects 2>&1\")",
+      "Bash(powershell -Command \"cd 'C:\\\\Users\\\\benih\\\\Desktop\\\\fit\\\\server'; npx vercel postgres --help 2>&1\")",
+      "Bash(powershell -Command \"cd 'C:\\\\Users\\\\benih\\\\Desktop\\\\fit\\\\server'; npx vercel --prod --yes --scope beni-s-projects 2>&1\")",
+      "Bash(powershell -Command \"Invoke-WebRequest -Uri 'https://server-beta-steel.vercel.app/api/health' -UseBasicParsing | Select-Object -ExpandProperty Content\")"
     ]
   }
 }
