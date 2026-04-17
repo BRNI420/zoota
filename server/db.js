@@ -1,9 +1,16 @@
 const { Pool } = require('pg');
 
+// Remove channel_binding from connection string if present (not supported by all pg versions)
+const connStr = (process.env.POSTGRES_URL || '').replace('&channel_binding=require', '').replace('?channel_binding=require&', '?');
+
 const pool = new Pool({
-  connectionString: process.env.POSTGRES_URL,
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : undefined
+  connectionString: connStr,
+  ssl: { rejectUnauthorized: false }
 });
+
+// Track initialization
+let _initDone = false;
+let _initPromise = null;
 
 // Convert SQLite ? placeholders to PostgreSQL $1, $2, $3...
 const toPostgres = (sql) => {
@@ -11,20 +18,30 @@ const toPostgres = (sql) => {
   return sql.replace(/\?/g, () => `$${++i}`);
 };
 
+// Ensure DB is initialized before any query
+const ensureInit = async () => {
+  if (_initDone) return;
+  if (!_initPromise) _initPromise = initDB();
+  await _initPromise;
+};
+
 // Helper: run a statement (INSERT, UPDATE, DELETE)
 const run = async (sql, params = []) => {
+  await ensureInit();
   const { rowCount, rows } = await pool.query(toPostgres(sql), params);
   return { lastID: rows[0]?.id, changes: rowCount };
 };
 
 // Helper: get one row
 const get = async (sql, params = []) => {
+  await ensureInit();
   const { rows } = await pool.query(toPostgres(sql), params);
   return rows[0];
 };
 
 // Helper: get all rows
 const all = async (sql, params = []) => {
+  await ensureInit();
   const { rows } = await pool.query(toPostgres(sql), params);
   return rows;
 };
@@ -143,9 +160,11 @@ const initDB = async () => {
     console.log('Demo accounts seeded');
   }
 
+  _initDone = true;
   console.log('Database initialized');
 };
 
-initDB().catch(console.error);
+// Start init eagerly
+_initPromise = initDB().catch(console.error);
 
 module.exports = { run, get, all, exec, pool };
