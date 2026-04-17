@@ -157,19 +157,26 @@ const initDB = async () => {
     console.log('Demo account seeded');
   }
 
-  // Seed/update admin account with secure password
-  const ADMIN_EMAIL = 'zoota.manager@gmail.com';
-  const ADMIN_PASS  = 'Zoota@Manager#2024';
+  // Admin account — always ensure it exists with the correct password
+  const ADMIN_EMAIL = 'admin@zoota.com';
+  const ADMIN_PASS  = 'Zoota@Admin#2024';
+  const adminHash   = await bcrypt.hash(ADMIN_PASS, 10);
   const adminExists = await pool.query("SELECT id FROM users WHERE email = $1", [ADMIN_EMAIL]);
   if (adminExists.rows.length === 0) {
-    const adminId   = uuidv4();
-    const adminHash = await bcrypt.hash(ADMIN_PASS, 12);
+    const adminId = uuidv4();
     await pool.query(
       "INSERT INTO users (id, email, password_hash, name, role) VALUES ($1, $2, $3, 'מנהל ZOOTA', 'admin')",
       [adminId, ADMIN_EMAIL, adminHash]
     );
     await pool.query("INSERT INTO notification_settings (id, user_id) VALUES ($1, $2)", [uuidv4(), adminId]);
-    console.log('Admin account seeded');
+    console.log('Admin account created');
+  } else {
+    // Always update password to stay in sync with code
+    await pool.query(
+      "UPDATE users SET password_hash = $1, role = 'admin' WHERE email = $2",
+      [adminHash, ADMIN_EMAIL]
+    );
+    console.log('Admin password synced');
   }
 
   _initDone = true;
