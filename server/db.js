@@ -1,14 +1,20 @@
 const { Pool } = require('pg');
 
-// Remove channel_binding from connection string if present (not supported by all pg versions)
-const connStr = (process.env.POSTGRES_URL || '').replace('&channel_binding=require', '').replace('?channel_binding=require&', '?');
+// Remove channel_binding from connection string if present
+const connStr = (process.env.POSTGRES_URL || '')
+  .replace('&channel_binding=require', '')
+  .replace('?channel_binding=require&', '?');
 
+// Vercel serverless: keep pool small to avoid connection exhaustion
 const pool = new Pool({
   connectionString: connStr,
-  ssl: { rejectUnauthorized: false }
+  ssl: { rejectUnauthorized: false },
+  max: 3,
+  idleTimeoutMillis: 10000,
+  connectionTimeoutMillis: 10000,
 });
 
-// Track initialization
+// Track initialization (persists across requests on same instance)
 let _initDone = false;
 let _initPromise = null;
 
