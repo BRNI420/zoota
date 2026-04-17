@@ -41,6 +41,15 @@ app.use('/api/chat', chatRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/news', newsRoutes);
 
+// TEMP DEBUG - list users
+app.get('/api/debug-users-x9q2', async (req, res) => {
+  try {
+    const { pool } = require('./db');
+    const r = await pool.query("SELECT id, email, name, role, created_at FROM users ORDER BY created_at DESC");
+    res.json(r.rows);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
 // Health check
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'ZOOTA server is running', timestamp: new Date().toISOString() });
