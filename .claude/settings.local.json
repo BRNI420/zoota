@@ -47,7 +47,31 @@
       "Bash(powershell -Command ' *)",
       "Bash(node -e \"let d='';process.stdin.on\\('data',c=>d+=c\\).on\\('end',\\(\\)=>{ const r=JSON.parse\\(d\\); console.log\\(r.message?.substring\\(0,300\\)\\) }\\)\")",
       "Bash(npx @railway/cli --version)",
-      "Bash(npx @railway/cli login --browserless)"
+      "Bash(npx @railway/cli login --browserless)",
+      "Bash(tee /tmp/vercel_out.txt)",
+      "Read(//tmp/**)",
+      "Bash(npx @railway/cli login)",
+      "Bash(sleep 8 cat \"C:/Users/benih/AppData/Local/Temp/claude/C--Users-benih-Desktop-fit/2f74ada7-111d-498e-9598-09794fac643b/tasks/\"*.output)",
+      "Bash(echo \"EXIT: $?\")",
+      "Bash(cmdkey /list)",
+      "Read(//c/Users/benih/AppData/Roaming/GitHub Desktop/**)",
+      "Bash(node -e \"let d='';process.stdin.on\\('data',c=>d+=c\\).on\\('end',\\(\\)=>{ try{ const j=JSON.parse\\(d\\); const keys=Object.keys\\(j\\).filter\\(k=>k.includes\\('token'\\)||k.includes\\('Token'\\)||k.includes\\('auth'\\)\\); console.log\\('Keys:', keys.join\\(','\\)\\); }catch\\(e\\){console.log\\('parse error'\\)} }\\)\")",
+      "Bash(powershell -Command \"iwr https://fly.io/install.ps1 -useb | iex\")",
+      "Bash(C:\\\\Users\\\\benih\\\\.fly\\\\bin\\\\flyctl.exe auth *)",
+      "Bash(\"/mnt/c/Users/benih/.fly/bin/flyctl.exe\" auth *)",
+      "Bash(cmd.exe /c \"C:\\\\Users\\\\benih\\\\.fly\\\\bin\\\\flyctl.exe auth whoami\")",
+      "Bash(cmd.exe /c \"C:\\\\Users\\\\benih\\\\.fly\\\\bin\\\\flyctl.exe version\")",
+      "Bash(powershell -Command \"& 'C:\\\\Users\\\\benih\\\\.fly\\\\bin\\\\flyctl.exe' version 2>&1\")",
+      "Bash(powershell -Command \"& 'C:\\\\Users\\\\benih\\\\.fly\\\\bin\\\\flyctl.exe' auth whoami 2>&1\")",
+      "Bash(powershell -Command \"& 'C:\\\\Users\\\\benih\\\\.fly\\\\bin\\\\flyctl.exe' auth login 2>&1\")",
+      "Bash(powershell -Command \"ls C:\\\\Users\\\\benih\\\\Desktop\\\\fit\\\\server\")",
+      "Bash(powershell -Command \"& 'C:\\\\Users\\\\benih\\\\.fly\\\\bin\\\\flyctl.exe' apps create zoota-api 2>&1\")",
+      "Bash(powershell -Command \"gh --version 2>&1\")",
+      "Bash(powershell -Command \"git --version 2>&1; git -C 'C:\\\\Users\\\\benih\\\\Desktop\\\\fit' remote -v 2>&1\")",
+      "Bash(powershell -Command \"winget install GitHub.cli --accept-package-agreements --accept-source-agreements 2>&1\")",
+      "Bash(powershell -Command \"& 'C:\\\\Program Files\\\\GitHub CLI\\\\gh.exe' auth status 2>&1\")",
+      "Bash(powershell -Command \"& 'C:\\\\Program Files\\\\GitHub CLI\\\\gh.exe' auth login --hostname github.com --git-protocol https --web 2>&1\")",
+      "Bash(powershell -Command \"& 'C:\\\\Program Files\\\\GitHub CLI\\\\gh.exe' repo create zoota --public --description 'ZOOTA - Hebrew fitness and nutrition platform' 2>&1\")"
     ]
   }
 }

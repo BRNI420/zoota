@@ -1,0 +1,7 @@
+node_modules
+.env
+zoota.db
+zoota.db-shm
+zoota.db-wal
+uploads
+*.log
