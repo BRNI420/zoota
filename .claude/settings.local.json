@@ -45,7 +45,9 @@
       "Bash(powershell -Command \"Get-Process -Name 'node' | Select-Object Id, StartTime, CommandLine 2>/dev/null | Format-List\")",
       "Bash(powershell -Command \"Get-Process -Name 'node' | Select-Object Id, StartTime | Format-List\")",
       "Bash(powershell -Command ' *)",
-      "Bash(node -e \"let d='';process.stdin.on\\('data',c=>d+=c\\).on\\('end',\\(\\)=>{ const r=JSON.parse\\(d\\); console.log\\(r.message?.substring\\(0,300\\)\\) }\\)\")"
+      "Bash(node -e \"let d='';process.stdin.on\\('data',c=>d+=c\\).on\\('end',\\(\\)=>{ const r=JSON.parse\\(d\\); console.log\\(r.message?.substring\\(0,300\\)\\) }\\)\")",
+      "Bash(npx @railway/cli --version)",
+      "Bash(npx @railway/cli login --browserless)"
     ]
   }
 }
