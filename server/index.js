@@ -13,7 +13,8 @@ app.use(cors({
     'http://localhost:3000',
     'http://127.0.0.1:5173',
     'https://client-virid-chi-31.vercel.app',
-    /\.vercel\.app$/
+    /\.vercel\.app$/,
+    /\.onrender\.com$/
   ],
   credentials: true
 }));
