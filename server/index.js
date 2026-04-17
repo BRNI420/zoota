@@ -41,22 +41,6 @@ app.use('/api/chat', chatRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/news', newsRoutes);
 
-// ONE-TIME admin setup (remove after use)
-app.get('/api/setup-admin-x7k9', async (req, res) => {
-  try {
-    const bcrypt = require('bcryptjs');
-    const { pool } = require('./db');
-    const hash = await bcrypt.hash('Zoota@Admin#2024', 10);
-    await pool.query(
-      "UPDATE users SET password_hash = $1, role = 'admin', name = 'מנהל ZOOTA' WHERE email = 'admin@zoota.com'",
-      [hash]
-    );
-    res.json({ ok: true, message: 'Admin password updated' });
-  } catch (e) {
-    res.status(500).json({ error: e.message });
-  }
-});
-
 // Health check
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'ZOOTA server is running', timestamp: new Date().toISOString() });
