@@ -1,54 +1,49 @@
-const sqlite3 = require('sqlite3').verbose();
-const path = require('path');
+const { Pool } = require('pg');
 
-const DB_PATH = path.join(__dirname, 'zoota.db');
-const db = new sqlite3.Database(DB_PATH);
-
-// Helper: run a statement (INSERT, UPDATE, DELETE, CREATE)
-const run = (sql, params = []) => new Promise((resolve, reject) => {
-  db.run(sql, params, function (err) {
-    if (err) reject(err);
-    else resolve({ lastID: this.lastID, changes: this.changes });
-  });
+const pool = new Pool({
+  connectionString: process.env.POSTGRES_URL,
+  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : undefined
 });
+
+// Convert SQLite ? placeholders to PostgreSQL $1, $2, $3...
+const toPostgres = (sql) => {
+  let i = 0;
+  return sql.replace(/\?/g, () => `$${++i}`);
+};
+
+// Helper: run a statement (INSERT, UPDATE, DELETE)
+const run = async (sql, params = []) => {
+  const { rowCount, rows } = await pool.query(toPostgres(sql), params);
+  return { lastID: rows[0]?.id, changes: rowCount };
+};
 
 // Helper: get one row
-const get = (sql, params = []) => new Promise((resolve, reject) => {
-  db.get(sql, params, (err, row) => {
-    if (err) reject(err);
-    else resolve(row);
-  });
-});
+const get = async (sql, params = []) => {
+  const { rows } = await pool.query(toPostgres(sql), params);
+  return rows[0];
+};
 
 // Helper: get all rows
-const all = (sql, params = []) => new Promise((resolve, reject) => {
-  db.all(sql, params, (err, rows) => {
-    if (err) reject(err);
-    else resolve(rows);
-  });
-});
+const all = async (sql, params = []) => {
+  const { rows } = await pool.query(toPostgres(sql), params);
+  return rows;
+};
 
-// Helper: run multiple statements (exec)
-const exec = (sql) => new Promise((resolve, reject) => {
-  db.exec(sql, (err) => {
-    if (err) reject(err);
-    else resolve();
-  });
-});
+// Helper: run raw SQL
+const exec = async (sql) => {
+  await pool.query(sql);
+};
 
 // Initialize tables
 const initDB = async () => {
-  await exec(`
-    PRAGMA foreign_keys = ON;
-    PRAGMA journal_mode = WAL;
-
+  await pool.query(`
     CREATE TABLE IF NOT EXISTS users (
       id TEXT PRIMARY KEY,
       email TEXT UNIQUE NOT NULL,
       password_hash TEXT NOT NULL,
       name TEXT NOT NULL,
       role TEXT NOT NULL DEFAULT 'client',
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
     CREATE TABLE IF NOT EXISTS questionnaires (
@@ -66,7 +61,7 @@ const initDB = async () => {
       foods_to_avoid TEXT NOT NULL DEFAULT '[]',
       training_days_per_week INTEGER NOT NULL DEFAULT 3,
       experience_level TEXT NOT NULL DEFAULT 'beginner',
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
     CREATE TABLE IF NOT EXISTS workout_plans (
@@ -76,7 +71,7 @@ const initDB = async () => {
       title TEXT NOT NULL,
       description TEXT,
       plan_data TEXT NOT NULL DEFAULT '{}',
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
     CREATE TABLE IF NOT EXISTS nutrition_plans (
@@ -88,7 +83,7 @@ const initDB = async () => {
       carbs_g INTEGER NOT NULL,
       fat_g INTEGER NOT NULL,
       meals TEXT NOT NULL DEFAULT '[]',
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
     CREATE TABLE IF NOT EXISTS videos (
@@ -102,7 +97,7 @@ const initDB = async () => {
       instructions TEXT,
       muscle_groups TEXT NOT NULL DEFAULT '[]',
       created_by TEXT NOT NULL,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
     CREATE TABLE IF NOT EXISTS chat_messages (
@@ -110,7 +105,7 @@ const initDB = async () => {
       user_id TEXT NOT NULL,
       role TEXT NOT NULL,
       content TEXT NOT NULL,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
     CREATE TABLE IF NOT EXISTS notification_settings (
@@ -121,9 +116,36 @@ const initDB = async () => {
       workout_reminders INTEGER NOT NULL DEFAULT 1
     );
   `);
+
+  // Seed demo accounts if not exists
+  const bcrypt = require('bcryptjs');
+  const { v4: uuidv4 } = require('uuid');
+
+  const demoExists = await pool.query("SELECT id FROM users WHERE email = 'demo@zoota.com'");
+  if (demoExists.rows.length === 0) {
+    const demoId = uuidv4();
+    const adminId = uuidv4();
+    const demoHash = await bcrypt.hash('demo123', 12);
+    const adminHash = await bcrypt.hash('admin123', 12);
+
+    await pool.query(
+      "INSERT INTO users (id, email, password_hash, name, role) VALUES ($1, 'demo@zoota.com', $2, 'משתמש דמו', 'client')",
+      [demoId, demoHash]
+    );
+    await pool.query("INSERT INTO notification_settings (id, user_id) VALUES ($1, $2)", [uuidv4(), demoId]);
+
+    await pool.query(
+      "INSERT INTO users (id, email, password_hash, name, role) VALUES ($1, 'admin@zoota.com', $2, 'מנהל', 'admin')",
+      [adminId, adminHash]
+    );
+    await pool.query("INSERT INTO notification_settings (id, user_id) VALUES ($1, $2)", [uuidv4(), adminId]);
+
+    console.log('Demo accounts seeded');
+  }
+
   console.log('Database initialized');
 };
 
 initDB().catch(console.error);
 
-module.exports = { run, get, all, exec, db };
+module.exports = { run, get, all, exec, pool };
