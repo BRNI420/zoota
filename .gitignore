@@ -1,0 +1,11 @@
+node_modules/
+.env
+client/.env.local
+client/.env.production
+server/uploads/
+server/zoota.db
+server/zoota.db-shm
+server/zoota.db-wal
+server/server.log
+dist/
+.DS_Store
